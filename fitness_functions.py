@@ -38,14 +38,18 @@ def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|fl
 
     #Work out maximum theoretical value using an nitial investement of $1000 by default.
     profit=0
-    val =1000
+    val = 1000
+    no_tc_val = 1000
     for ind,price in enumerate(btc_ts_open.iloc[peaks_troughs]):
-        if ind>1 and price*(1+tc) > btc_ts_open.iloc[peaks_troughs].iloc[ind-1]:
-            profit += price*(1+tc) - btc_ts_open.iloc[peaks_troughs].iloc[ind-1]
-
-            shares_buy = val*(1-tc)/btc_ts_open.iloc[peaks_troughs].iloc[ind-1]
-            val = shares_buy*price*(1-tc)
-            
+        if ind>1 and price > btc_ts_open.iloc[peaks_troughs].iloc[ind-1]:
+            # Calculate 
+            pot_val= (val*price/btc_ts_open.iloc[peaks_troughs].iloc[ind-1])*(1-tc)**2
+            if pot_val>val:
+                val=pot_val        
+    # no_tc
+    if ind>1 and price > btc_ts_open.iloc[peaks_troughs].iloc[ind-1]:
+        no_tc_val = (no_tc_val*price/btc_ts_open.iloc[peaks_troughs].iloc[ind-1])
+        
     return val 
 
 def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transaction_cost = 0.01):
@@ -57,10 +61,8 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
     function = gp.compile(expr=gp.PrimitiveTree(individual),pset=pset)
 
     signal_df  = pd.DataFrame(index=df.index)
-    print(function(df = df))
     signal_df['Signal'] = function(df = df)
     signal_df["Open"] = df['Open']
-    print(signal_df)
 
     for cnt,row in enumerate(signal_df.iterrows()):
         if (row[1]['Signal']) == True and not long:
