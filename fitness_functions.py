@@ -52,10 +52,11 @@ def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|fl
         
     return val 
 
-def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transaction_cost = 0.01):
+def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transaction_cost = 0.01, strat_df:bool=False):
     tc = transaction_cost
     val = start_value
     ts_val = [val]
+    ts_df = pd.DataFrame(columns = ["value"])
     long = False
 
     function = gp.compile(expr=gp.PrimitiveTree(individual),pset=pset)
@@ -63,6 +64,9 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
     signal_df  = pd.DataFrame(index=df.index)
     signal_df['Signal'] = function(df = df)
     signal_df["Open"] = df['Open']
+    if strat_df:
+        signal_df['Buy'] = [True]+[False]*(len(df)-1)
+        signal_df['Sell'] = [False]*len(df)
 
     for cnt,row in enumerate(signal_df.iterrows()):
         if (row[1]['Signal']) == True and not long:
@@ -70,23 +74,32 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
             #Buy/hold signal
             shares = ((1-tc)*val)/row[1]['Open']
             long=True
+            if strat_df:
+                signal_df[row[0],'Buy']=True
         if (row[1]['Signal']) == False and long:
             # print("Sell at: ",row[1]['Open'])
             val = (1-tc)*shares*row[1]['Open']
-            ts_val.append(val)
             long=False
+            if strat_df:
+                signal_df[row[0],'Sell']=True
+            ts_val.append(val)
         if cnt == len(df) and long:
             val = shares*row[1]['Open']
+        ts_df.loc[row[0]] = val
+        
 
     #Calculate the MDD:
     try:
         mdd = min([v-ts_val[ind-1] for ind, v in enumerate(ts_val) if ind>0])
     except:
         mdd = 0
-    return val, mdd
+    if strat_df:
+        return val, mdd, ts_val, signal_df
+    else:
+        return val, mdd, ts_val
     
 
 def fitness_function(individual, df, pset):
-    val, mdd = trading_strat(individual = individual, df = df,pset=pset)
+    val, mdd, ts_val = trading_strat(individual = individual, df = df,pset=pset)
     mtv = maximum_theoretical_value(df)
     return [(val/mtv)-mdd]
