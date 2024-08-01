@@ -19,8 +19,8 @@ class Dollar:
 
 
 def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|float = 0.01):
-    btc_ts_open = df['Open']
-    x = btc_ts_open.reset_index()['Open']
+    df_open = df['Open']
+    x = df_open.reset_index()['Open']
 
     # Get peaks and troughs
     peaks, _ = find_peaks(x)
@@ -30,8 +30,8 @@ def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|fl
     #Add the enedpoints to the local maximum and minimums.
     if 0 not in peaks_troughs:
         peaks_troughs.append(0)
-    if len(btc_ts_open)-1 not in peaks_troughs:
-        peaks_troughs.append(len(btc_ts_open)-1)
+    if len(df_open)-1 not in peaks_troughs:
+        peaks_troughs.append(len(df_open)-1)
 
     peaks_troughs = sorted(peaks_troughs)
     peaks_troughs
@@ -40,15 +40,15 @@ def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|fl
     profit=0
     val = 1000
     no_tc_val = 1000
-    for ind,price in enumerate(btc_ts_open.iloc[peaks_troughs]):
-        if ind>1 and price > btc_ts_open.iloc[peaks_troughs].iloc[ind-1]:
+    for ind,price in enumerate(df_open.iloc[peaks_troughs]):
+        if ind>1 and price > df_open.iloc[peaks_troughs].iloc[ind-1]:
             # Calculate 
-            pot_val= (val*price/btc_ts_open.iloc[peaks_troughs].iloc[ind-1])*(1-tc)**2
+            pot_val= (val*price/df_open.iloc[peaks_troughs].iloc[ind-1])*(1-tc)**2
             if pot_val>val:
                 val=pot_val        
     # no_tc
-    if ind>1 and price > btc_ts_open.iloc[peaks_troughs].iloc[ind-1]:
-        no_tc_val = (no_tc_val*price/btc_ts_open.iloc[peaks_troughs].iloc[ind-1])
+    if ind>1 and price > df_open.iloc[peaks_troughs].iloc[ind-1]:
+        no_tc_val = (no_tc_val*price/df_open.iloc[peaks_troughs].iloc[ind-1])
         
     return val 
 
