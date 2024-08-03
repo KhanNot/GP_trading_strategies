@@ -94,7 +94,7 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
         return val, mdd, ts_val
     
 
-def fitness_function(individual, df, pset):
-    val, mdd, ts_val = trading_strat(individual = individual, df = df,pset=pset)
-    mtv = maximum_theoretical_value(df)
+def fitness_function(individual, df,tc, pset):
+    val, mdd, ts_val = trading_strat(individual = individual, df = df,transaction_cost=tc,pset=pset)
+    mtv = maximum_theoretical_value(df, tc=tc)
     return [(val/mtv)-mdd]

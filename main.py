@@ -16,8 +16,9 @@ import pendulum
 def main_func(
           population_size,
           num_generations,
-          directory_path = r"C:\Users\khann\Documents\Data Science and Financial Technology\Final project\GP_trading_strategies",
-          parallel_number:int|None= None
+          directory_path = r"/home/khann/masters",
+          parallel_number:int|None= None,
+          tc=0.01
     ):
 
     df = get_data()
@@ -84,7 +85,7 @@ def main_func(
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register("custom_individual",generate, pset)
     toolbox.register("population", tools.initRepeat, list, toolbox.custom_individual)
-    toolbox.register("evaluate", fitness_function, df=df_train, pset=pset)
+    toolbox.register("evaluate", fitness_function, df=df_train,tc=tc, pset=pset)
 
     toolbox.register("mate",       cxSubTree)
     toolbox.register("select",     tools.selRoulette) 
@@ -115,13 +116,25 @@ def main_func(
     t2 = pendulum.now()
     run_time = (t2-t1).seconds
 
-    run_info= pd.DataFrame(columns=['population_number', 'generations', 'run_time', 'best_tree'])
+    best_solution=hof.items[0]
+    bh_start_train = (1000/df_train.iloc[0]['Open'])*df_train.iloc[-1]['Open']*(1-tc)**2
+    strat_train_profit = trading_strat(individual = best_solution, df=df_train,pset=pset)[0]
+
+    bh_start_test = (1000/df_test.iloc[0]['Open'])*df_test.iloc[-1]['Open']*(1-tc)**2
+    strat_test_profit = trading_strat(individual = best_solution, df=df_test,pset=pset)[0]
+
+    run_info= pd.DataFrame(columns=['population_number', 'generations', 'run_time', 'best_tree','trading_cost','buy_hold_train','strategy_value_train','buy_hold_test','strategy_value_test'])
     run_info = run_info._append({
          "time":t1,
          "population_number":population_size,
          "generations": num_generations,
          "run_time":run_time,
-         "best_tree":str(hof.items[1])
+         "best_tree":str(hof.items[1]),
+         "trading_cost":f"{tc*100}%",
+         "buy_hold_train":bh_start_train,
+         "strategy_value_train":strat_train_profit,
+         "buy_hold_test":bh_start_test,
+         "strategy_value_test":strat_test_profit
     },
     ignore_index = True)
     #Save all the run data:
@@ -132,7 +145,7 @@ def main_func(
         store_generations,
         run_info, 
         parallel_number,
-        base_dir=".\\results\\"
+        base_dir="./results/"
         )
     
 if __name__=="__main__":
