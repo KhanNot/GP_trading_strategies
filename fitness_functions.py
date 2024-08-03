@@ -9,15 +9,6 @@ from deap import gp, creator, base, tools
 import operator
 from operator import or_, and_, gt
 
-class Volume:
-    def __init__(self, value: float):
-        self.value = value
-
-class Dollar:
-    def __init__(self, value: float):
-        self.value = value
-
-
 def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|float = 0.01):
     df_open = df['Open']
     x = df_open.reset_index()['Open']
@@ -58,6 +49,7 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
     ts_val = [val]
     ts_df = pd.DataFrame(columns = ["value"])
     long = False
+    delayed_signal = False
 
     function = gp.compile(expr=gp.PrimitiveTree(individual),pset=pset)
 
@@ -69,14 +61,15 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
         signal_df['Sell'] = [False]*len(df)
 
     for cnt,row in enumerate(signal_df.iterrows()):
-        if (row[1]['Signal']) == True and not long:
+
+        if (delayed_signal) == True and not long:
             # print("Buy at: ",row[1]['Open'])
             #Buy/hold signal
             shares = ((1-tc)*val)/row[1]['Open']
             long=True
             if strat_df:
                 signal_df[row[0],'Buy']=True
-        if (row[1]['Signal']) == False and long:
+        if (delayed_signal) == False and long:
             # print("Sell at: ",row[1]['Open'])
             val = (1-tc)*shares*row[1]['Open']
             long=False
@@ -86,6 +79,8 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
         if cnt == len(df) and long:
             val = shares*row[1]['Open']
         ts_df.loc[row[0]] = val
+
+        delayed_signal = row[1]['Signal']
         
 
     #Calculate the MDD:

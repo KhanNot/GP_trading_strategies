@@ -1,0 +1,11 @@
+,Population
+0,"['or_', 'gt', 'ma_volume_32', 'ma_volume_10', 'or_', 'gt', 'ma_volume_42', 'ma_volume_37', 'gt', 'lag_low_35', 'Close']"
+1,"['or_', 'gt', 'lag_volume_26', 'ma_volume_15', 'gt', 'ma_volume_20', 'lag_volume_23']"
+2,"['and_', 'gt', 'ma_volume_6', 'ma_volume_28', 'or_', 'gt', 'ma_high_12', 'ma_high_44', 'gt', 'lag_volume_5', 'ma_volume_18']"
+3,"['or_', 'gt', 'lag_volume_31', 'ma_volume_4', 'gt', 'lag_volume_48', 'ma_volume_19']"
+4,"['and_', 'gt', 'ma_low_4', 'lag_close_15', 'gt', 'ma_volume_46', 'ma_volume_43']"
+5,"['and_', 'gt', 'ma_close_33', 'ma_high_46', 'gt', 'lag_high_21', 'ma_low_12']"
+6,"['and_', 'gt', 'lag_volume_2', 'lag_volume_13', 'and_', 'gt', 'ma_open_10', 'lag_close_49', 'and_', 'gt', 'lag_volume_9', 'lag_volume_29', 'gt', 'lag_open_6', 'ma_close_26']"
+7,"['and_', 'gt', 'Volume', 'ma_volume_20', 'gt', 'lag_volume_46', 'ma_volume_27']"
+8,"['and_', 'gt', 'lag_volume_15', 'lag_volume_3', 'gt', 'lag_volume_48', 'lag_volume_35']"
+9,"['and_', 'gt', 'lag_volume_28', 'ma_volume_17', 'gt', 'lag_high_3', 'ma_close_6']"
