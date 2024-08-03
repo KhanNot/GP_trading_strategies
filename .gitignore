@@ -1,3 +1,5 @@
 venv/
 .pyenv
 pyenv
+**/venv/
+**/.venv/
