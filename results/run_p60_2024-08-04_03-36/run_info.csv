@@ -1,0 +1,2 @@
+,population_number,generations,run_time,best_tree,trading_cost,buy_hold_train,strategy_value_train,buy_hold_test,strategy_value_test,time
+0,100,50,23858,"or_(gt('ma_close_7', 'ma_close_47'), gt('lag_close_37', 'ma_open_12'))",1.0%,116918.97703677377,62742.16563509151,1163.7100970760914,873.8106757548279,2024-08-03 08:58:25.125799+00:00

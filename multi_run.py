@@ -10,7 +10,7 @@ def jou_funksie(id: int):
 
 if __name__ == '__main__':
     processes = []
-    for i in range(5):
+    for i in range(100):
         p = multiprocessing.Process(target=jou_funksie, args=(i,))
         processes.append(p)
         p.start()
