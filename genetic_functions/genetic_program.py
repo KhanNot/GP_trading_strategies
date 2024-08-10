@@ -10,7 +10,6 @@ def cross_mut(population, toolbox, cxpb, mutpb, elite_pop_size, ngen, gen):
     for idx, ind in enumerate(elite_pop):
         offspring[idx] = toolbox.clone(ind)
     # Apply crossover and mutation on the offspring
-    print("pause 2")
     for i in range(elite_pop_size+1, len(offspring)):
         if random.random() < cxpb:
             bi = random.randint(elite_pop_size+1, len(offspring)-1)

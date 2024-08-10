@@ -1,21 +1,31 @@
 import multiprocessing
+import pandas as pd
 from main import main_func
+from utils.pre_process_data import get_data
 
-def jou_funksie(id: int):
+def jou_funksie(id: int, df):
     main_func(
-            population_size =100,
-            num_generations= 50,
-            parallel_number = id
+            population_size =10,
+            num_generations= 3,
+            parallel_number = id,
+            df =df
             )
 
-if __name__ == '__main__':
+def parallel_run(df):
     processes = []
-    for i in range(100):
-        p = multiprocessing.Process(target=jou_funksie, args=(i,))
+    for i in range(24):
+        p = multiprocessing.Process(target=jou_funksie, args=(i,df))
         processes.append(p)
         p.start()
 
-for p in processes:
-    p.join()
+    for p in processes:
+        p.join()
 
-    print("Fuck yes")
+        
+
+if __name__ == '__main__':
+    df = get_data()
+    for i in range(4):
+        parallel_run(df)
+    print("Finished")
+    
