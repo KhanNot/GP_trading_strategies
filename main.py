@@ -112,7 +112,7 @@ def main_func(
         cxpb=0.7, 
         mutpb=0.6, 
         ngen=num_generations, 
-        elite_pop_size= 10,
+        elite_pop_size= 5,
         stats = stats, 
         halloffame =hof
         )
@@ -154,8 +154,8 @@ def main_func(
     
 if __name__=="__main__":
      main_func(
-          population_size = 20,
-          num_generations= 5,
+          population_size = 50,
+          num_generations= 3,
      )
 
 
