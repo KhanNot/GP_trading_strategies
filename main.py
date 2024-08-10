@@ -88,9 +88,9 @@ def main_func(
     toolbox.register("population", tools.initRepeat, list, toolbox.custom_individual)
     toolbox.register("evaluate", fitness_function, df=df_train,tc=tc, pset=pset)
 
-    toolbox.register("mate",       cxSubTree)
+    toolbox.register("mate",       cxSubTree, toolbox = toolbox)
     toolbox.register("select",     tools.selRanked) 
-    toolbox.register("mutate",     mutation_half, pset=pset)
+    toolbox.register("mutate",     mutation_half,toolbox=toolbox, pset=pset)
 
     hof   = tools.HallOfFame(maxsize=10)
 
@@ -101,6 +101,7 @@ def main_func(
     stats.register("min", np.min, axis=0)
     stats.register("max", np.max, axis=0)
 
+    print("pause 1 ")
     pop = toolbox.population(n=population_size)
     # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
     #     pop = pickle.load(file)
