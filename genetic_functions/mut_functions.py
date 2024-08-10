@@ -24,14 +24,15 @@ def mutBranch(individual, pset, max_per_mutate=50):
     
     for i in range(index,len(individual)):
         node = individual[i]
+        ind_c = individual.copy()
         if node.arity == 0:  # Terminal
             term = random.choice(pset.terminals[node.ret])
-            individual[i] = term
+            ind_c[i] = term
         else:  # Primitive
             prims = [p for p in pset.primitives[node.ret] if p.args == node.args]
-            individual[i] = random.choice(prims)
+            ind_c[i] = random.choice(prims)
 
-    return individual,
+    return ind_c
 
 def mutation_half(individual,mut_per, pset):
     if random.random()<0.5:
