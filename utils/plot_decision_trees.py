@@ -16,4 +16,4 @@ def plot_tree(expr, name:str = "tree"):
         n = g.get_node(i)
         n.attr["label"] = labels[i]
 
-    g.draw(rf".\trees\{name}.png")
+    g.draw(rf"./trees/{name}.png")

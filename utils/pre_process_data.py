@@ -47,6 +47,7 @@ def get_data(
             create_lagged_columns(df = df,column=column, lag = lag)
         for i in range(pers_col_num):
             create_percentage_of_value(df = df,column=column)
+        create_percentage_of_value(df = df,column=column , percentage=0.37)
 
     return pre_process(df)
 

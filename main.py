@@ -12,6 +12,7 @@ from genetic_functions.mut_functions import mutation_half, mutBranch
 from genetic_functions.genetic_program import GPAlgo
 import matplotlib.pyplot as plt
 import pendulum
+import pickle
      
 def main_func(
           population_size,
@@ -100,7 +101,9 @@ def main_func(
     stats.register("min", np.min, axis=0)
     stats.register("max", np.max, axis=0)
 
-    pop = toolbox.population(n=population_size)
+    # pop = toolbox.population(n=population_size)
+    with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
+        pop = pickle.load(file)
 
     t1 = pendulum.now()
     population, logbook, store_generations = GPAlgo(
@@ -145,13 +148,13 @@ def main_func(
         store_generations,
         run_info, 
         parallel_number,
-        base_dir="./results/"
+        base_dir="./results_run2/"
         )
     
 if __name__=="__main__":
      main_func(
-          population_size = 10,
-          num_generations= 2,
+          population_size = 200,
+          num_generations= 50,
      )
 
 

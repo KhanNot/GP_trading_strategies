@@ -97,4 +97,6 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
 def fitness_function(individual, df,tc, pset):
     val, mdd, ts_val = trading_strat(individual = individual, df = df,transaction_cost=tc,pset=pset)
     mtv = maximum_theoretical_value(df, tc=tc)
-    return [(val/mtv)-mdd]
+    #Using the FF below results in the MDD having a much larger weight than the Value of the final value of the strategy.
+    # return [(val/mtv)-mdd]
+    return val+mdd
