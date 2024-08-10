@@ -99,4 +99,4 @@ def fitness_function(individual, df,tc, pset):
     mtv = maximum_theoretical_value(df, tc=tc)
     #Using the FF below results in the MDD having a much larger weight than the Value of the final value of the strategy.
     # return [(val/mtv)-mdd]
-    return val+mdd
+    return [(val+mdd)]

@@ -31,7 +31,7 @@ def GPAlgo(population,
     # Begin the generational process
     for gen in range(1, ngen + 1):
         # Select the next generation individuals
-        offspring = toolbox.select(population, len(population))
+        offspring = toolbox.select(population, len(population)-elite_pop_size)
 
         # Vary the pool of individuals
         # assert (cxpb + mutpb) <= 1.0, (
@@ -40,8 +40,8 @@ def GPAlgo(population,
 
         #Elitism:
         elite_pop = sorted(population, key=attrgetter("fitness"), reverse=True)[:elite_pop_size]
-        offspring = [toolbox.clone(ind) for ind in population]
-        offspring[:elite_pop_size] = elite_pop
+        # offspring = [toolbox.clone(ind) for ind in population]
+        offspring = elite_pop +offspring
 
         # Apply crossover and mutation on the offspring
         for i in range(elite_pop_size+1, len(offspring)):

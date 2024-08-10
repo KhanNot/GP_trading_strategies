@@ -89,7 +89,7 @@ def main_func(
     toolbox.register("evaluate", fitness_function, df=df_train,tc=tc, pset=pset)
 
     toolbox.register("mate",       cxSubTree)
-    toolbox.register("select",     tools.selRoulette) 
+    toolbox.register("select",     tools.selRanked) 
     toolbox.register("mutate",     mutation_half, pset=pset)
 
     hof   = tools.HallOfFame(maxsize=50)
@@ -101,9 +101,9 @@ def main_func(
     stats.register("min", np.min, axis=0)
     stats.register("max", np.max, axis=0)
 
-    # pop = toolbox.population(n=population_size)
-    with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
-        pop = pickle.load(file)
+    pop = toolbox.population(n=population_size)
+    # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
+    #     pop = pickle.load(file)
 
     t1 = pendulum.now()
     population, logbook, store_generations = GPAlgo(
@@ -134,6 +134,7 @@ def main_func(
          "run_time":run_time,
          "best_tree":str(hof.items[1]),
          "trading_cost":f"{tc*100}%",
+         "fitness_value": hof.items[1].fitness.values,
          "buy_hold_train":bh_start_train,
          "strategy_value_train":strat_train_profit,
          "buy_hold_test":bh_start_test,
@@ -153,8 +154,8 @@ def main_func(
     
 if __name__=="__main__":
      main_func(
-          population_size = 200,
-          num_generations= 50,
+          population_size = 20,
+          num_generations= 5,
      )
 
 
