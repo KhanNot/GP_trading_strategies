@@ -92,7 +92,7 @@ def main_func(
     toolbox.register("select",     tools.selRanked) 
     toolbox.register("mutate",     mutation_half, pset=pset)
 
-    hof   = tools.HallOfFame(maxsize=50)
+    hof   = tools.HallOfFame(maxsize=10)
 
     #STATS:
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -154,7 +154,7 @@ def main_func(
     
 if __name__=="__main__":
      main_func(
-          population_size = 20,
+          population_size = 50,
           num_generations= 5,
      )
 

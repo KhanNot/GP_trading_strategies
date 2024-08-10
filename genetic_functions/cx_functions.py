@@ -19,7 +19,8 @@ def cxSubTree(ind1,ind2):
     i2= get_sub_trees(ind2)[r2]["start_index"]
 
     ind1c = ind1.copy()
-    ind1[i1:i1+3] = get_sub_trees(ind2)[r2]["primitive"]
-    ind2[i2:i2+3] = get_sub_trees(ind1c)[r1]["primitive"]
+    ind2c = ind2.copy()
+    ind1c[i1:i1+3] = get_sub_trees(ind2)[r2]["primitive"]
+    ind2c[i2:i2+3] = get_sub_trees(ind1)[r1]["primitive"]
 
-    return ind1, ind2
+    return ind1c, ind2c
