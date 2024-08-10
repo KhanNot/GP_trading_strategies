@@ -19,10 +19,10 @@ def main_func(
           num_generations,
           directory_path = r"/home/khann/masters",
           parallel_number:int|None= None,
-          tc=0.01
+          tc=0.01,
+          df = get_data()
     ):
 
-    df = get_data()
     df_train= df.iloc[ : ceil(len(df)*0.7)]
     df_test= df.iloc[ceil(len(df)*0.7) : ]
 
@@ -88,11 +88,11 @@ def main_func(
     toolbox.register("population", tools.initRepeat, list, toolbox.custom_individual)
     toolbox.register("evaluate", fitness_function, df=df_train,tc=tc, pset=pset)
 
-    toolbox.register("mate",       cxSubTree)
+    toolbox.register("mate",       cxSubTree, toolbox = toolbox)
     toolbox.register("select",     tools.selRanked) 
-    toolbox.register("mutate",     mutation_half, pset=pset)
+    toolbox.register("mutate",     mutation_half,toolbox=toolbox, pset=pset)
 
-    hof   = tools.HallOfFame(maxsize=10)
+    hof   = tools.HallOfFame(maxsize=5)
 
     #STATS:
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -101,6 +101,7 @@ def main_func(
     stats.register("min", np.min, axis=0)
     stats.register("max", np.max, axis=0)
 
+    print("pause 1 ")
     pop = toolbox.population(n=population_size)
     # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
     #     pop = pickle.load(file)
@@ -112,7 +113,7 @@ def main_func(
         cxpb=0.7, 
         mutpb=0.6, 
         ngen=num_generations, 
-        elite_pop_size= 10,
+        elite_pop_size= 5,
         stats = stats, 
         halloffame =hof
         )
@@ -153,9 +154,10 @@ def main_func(
         )
     
 if __name__=="__main__":
-     main_func(
-          population_size = 50,
-          num_generations= 5,
-     )
+    pass
+    #  main_func(
+    #       population_size = 100,
+    #       num_generations= 2,
+    #  )
 
 
