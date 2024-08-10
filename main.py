@@ -154,12 +154,8 @@ def main_func(
     
 if __name__=="__main__":
      main_func(
-          population_size = 50,
-<<<<<<< HEAD
-          num_generations= 3,
-=======
+          population_size = 25,
           num_generations= 5,
->>>>>>> refs/remotes/origin/main
      )
 
 
