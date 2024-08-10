@@ -5,8 +5,8 @@ from utils.pre_process_data import get_data
 
 def jou_funksie(id: int, df):
     main_func(
-            population_size =10,
-            num_generations= 3,
+            population_size =100,
+            num_generations= 50,
             parallel_number = id,
             df =df
             )
@@ -25,7 +25,7 @@ def parallel_run(df):
 
 if __name__ == '__main__':
     df = get_data()
-    for i in range(4):
+    for i in range(10):
         parallel_run(df)
     print("Finished")
     
