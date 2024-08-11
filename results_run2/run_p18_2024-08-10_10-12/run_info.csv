@@ -1,0 +1,2 @@
+,population_number,generations,run_time,best_tree,trading_cost,buy_hold_train,strategy_value_train,buy_hold_test,strategy_value_test,time,fitness_value
+0,100,50,24614,"or_(or_(gt('lag_volume_44', 'lag_volume_38'), or_(gt('ma_volume_41', 'ma_volume_9'), gt('ma_volume_8', 'ma_volume_40'))), gt('lag_volume_25', 'lag_volume_13'))",1.0%,116918.97703677377,223237.45138580815,1163.7100970760914,587.7581704911686,2024-08-10 15:22:00.732862+00:00,"(163473.93420371183,)"
