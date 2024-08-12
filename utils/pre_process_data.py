@@ -11,7 +11,8 @@ def create_lagged_columns(df, column, lag):
     return df
 
 def create_percentage_of_value(df, column, percentage:float = random.random()):
-    df[f"percentage_{column.lower()}_{(round(percentage*100))}"]= df[column]*percentage
+    df[f"percentage_{column.lower()}_{(round(percentage*100,))}"]= df[column]*percentage
+    # df[f"percentage_{column.lower()}_{(percentage*100,)}"]= df[column]*percentage
     return df
 
 def create_difference(df, column1:str = "low", column2:str = "high"):
@@ -48,6 +49,8 @@ def get_data(
         for i in range(pers_col_num):
             create_percentage_of_value(df = df,column=column)
         create_percentage_of_value(df = df,column=column , percentage=0.37)
+        create_percentage_of_value(df = df,column=column , percentage=0.57)
+        create_percentage_of_value(df = df,column=column , percentage=0.60)
 
     return pre_process(df)
 
