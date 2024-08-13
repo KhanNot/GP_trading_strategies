@@ -108,7 +108,7 @@ def main_func(
         # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
         #     pop = pickle.load(file)
     else:
-        population = population_predefined
+        pop = population_predefined
 
     t1 = pendulum.now()
     population, logbook, store_generations = GPAlgo(
@@ -154,7 +154,7 @@ def main_func(
         store_generations,
         run_info, 
         parallel_number,
-        base_dir="./results_run2/"
+        base_dir="./results_run2_gen2/"
         )
     
 if __name__=="__main__":
