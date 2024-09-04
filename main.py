@@ -20,7 +20,8 @@ def main_func(
           directory_path = r"/home/khann/masters",
           parallel_number:int|None= None,
           tc=0.01,
-          df = get_data()
+          df = get_data(),
+          population_predefined = None
     ):
 
     df_train= df.iloc[ : ceil(len(df)*0.7)]
@@ -102,9 +103,12 @@ def main_func(
     stats.register("max", np.max, axis=0)
 
     print("pause 1 ")
-    pop = toolbox.population(n=population_size)
-    # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
-    #     pop = pickle.load(file)
+    if population_predefined is None:
+        pop = toolbox.population(n=population_size)
+        # with open(rf"/home/khann/masters/results/run_1_hof.pkl", 'rb') as file:
+        #     pop = pickle.load(file)
+    else:
+        pop = population_predefined
 
     t1 = pendulum.now()
     population, logbook, store_generations = GPAlgo(
@@ -150,7 +154,7 @@ def main_func(
         store_generations,
         run_info, 
         parallel_number,
-        base_dir="./results_run2/"
+        base_dir="./results_run2_gen2/"
         )
     
 if __name__=="__main__":
