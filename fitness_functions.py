@@ -43,7 +43,7 @@ def maximum_theoretical_value(df: pd.DataFrame, val: int|float =1000, tc: int|fl
         
     return val 
 
-def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transaction_cost = 0.01, strat_df:bool=False):
+def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transaction_cost = 0.01, strat_df:bool=False, ret_trade_row:bool=False):
     tc = transaction_cost
     val = start_value
     ts_val = [val]
@@ -59,6 +59,7 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
     if strat_df:
         signal_df['Buy'] = [True]+[False]*(len(df)-1)
         signal_df['Sell'] = [False]*len(df)
+    trade_row = []
 
     for cnt,row in enumerate(signal_df.iterrows()):
 
@@ -76,8 +77,13 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
             if strat_df:
                 signal_df[row[0],'Sell']=True
             ts_val.append(val)
+            #----
+            trade_row.append(row)
+            #----
+
         if cnt == len(df) and long:
             val = shares*row[1]['Open']
+            ts_val.append(val)
         ts_df.loc[row[0]] = val
 
         delayed_signal = row[1]['Signal']
@@ -90,6 +96,8 @@ def trading_strat(individual, df:pd.DataFrame,pset, start_value=1000, transactio
         mdd = 0
     if strat_df:
         return val, mdd, ts_val, signal_df
+    elif ret_trade_row:
+        return val, mdd, ts_val, trade_row
     else:
         return val, mdd, ts_val
     

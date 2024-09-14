@@ -25,12 +25,12 @@ def parallel_run(df):
 
 
 def main_with_pre_pop(id: int,file_name:str, df):
-    with open(rf"/home/khann/masters/results_run2_gen2/start_pop/{file_name}", 'rb') as file:
+    with open(rf"C:\Users\khann\Documents\Data Science and Financial Technology\Final project\GP_trading_strategies\results_run2_gen3\{file_name}", 'rb') as file:
         pop = pickle.load(file)
 
     main_func(
-            population_size =100,
-            num_generations= 50,
+            population_size =20,
+            num_generations= 100,
             parallel_number = id,
             df =df,
             population_predefined = pop
@@ -40,7 +40,7 @@ def main_with_pre_pop(id: int,file_name:str, df):
 
 def parallel_run_pre_pop(df):
     processes = []
-    run_list = os.listdir("/home/khann/masters/results_run2_gen2/start_pop")
+    run_list = os.listdir(r"C:\Users\khann\Documents\Data Science and Financial Technology\Final project\GP_trading_strategies\results_run2_gen3")
     
     for i,pop_file in enumerate(run_list):
         p = multiprocessing.Process(target=main_with_pre_pop, args=(i,pop_file, df))

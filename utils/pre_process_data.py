@@ -51,6 +51,7 @@ def get_data(
         create_percentage_of_value(df = df,column=column , percentage=0.37)
         create_percentage_of_value(df = df,column=column , percentage=0.57)
         create_percentage_of_value(df = df,column=column , percentage=0.60)
+        create_percentage_of_value(df = df,column=column , percentage=0.68)
 
     return pre_process(df)
 
