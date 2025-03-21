@@ -2,14 +2,28 @@ import random
 from deap import gp
 
 #Mutate entire branch:
-def mutBranch(individual, pset,toolbox,  max_per_mutate=50):
-    """Replaces a randomly chosen primitive from *individual* by a randomly
-    chosen primitive with the same number of arguments from the :attr:`pset`
-    attribute of the individual.
-
-    :param individual: The normal or typed tree to be mutated.
-    :returns: A tuple of one tree.
+def mutBranch(individual, pset, toolbox, max_per_mutate=50):
     """
+    * This function is from a mutation of the function within the DEAP library. *
+    Mutates a given individual by replacing a randomly chosen primitive or terminal 
+    with another of the same type from the provided primitive set (pset). The mutation 
+    is constrained by a maximum percentage of nodes that can be altered.
+    Parameters:
+        individual (gp.PrimitiveTree): The tree structure (individual) to be mutated.
+        pset (deap.gp.PrimitiveSet): The primitive set containing terminals and primitives 
+            for mutation.
+        toolbox (deap.base.Toolbox): The DEAP toolbox used for genetic programming operations.
+        max_per_mutate (int, optional): The maximum percentage of nodes in the tree 
+            that can be mutated. Defaults to 50.
+    Returns:
+        tuple: A tuple containing the mutated individual.
+    Notes:
+        - If the individual has fewer than 2 nodes, no mutation is performed.
+        - The mutation process ensures that the arity (number of arguments) of primitives 
+          remains consistent.
+
+    """
+    #If the individual is too small to mutate return the unmutated individual
     if len(individual) < 2:
         return individual,
 
@@ -34,6 +48,7 @@ def mutBranch(individual, pset,toolbox,  max_per_mutate=50):
     return individual
 
 def mutation_half(individual,mut_per,toolbox, pset):
+
     if random.random()<0.5:
         return gp.mutNodeReplacement(individual, pset = pset)
     else:
