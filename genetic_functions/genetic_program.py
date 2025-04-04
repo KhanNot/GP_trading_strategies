@@ -4,6 +4,36 @@ from deap import base, creator, tools, gp, algorithms
 
 
 def cross_mut(population, toolbox, cxpb, mutpb, elite_pop_size, ngen, gen):
+    """
+    Performs crossover and mutation operations on a population while preserving elite individuals.
+    Parameters
+    ----------
+    population : list
+        List of individuals in current population
+    toolbox : deap.base.Toolbox
+        DEAP toolbox containing registered genetic operators
+    cxpb : float
+        Probability of crossover between two individuals (0-1)
+    mutpb : float
+        Probability of mutation for an individual (0-1) 
+    elite_pop_size : int
+        Number of top performing individuals to preserve unchanged
+    ngen : int
+        Total number of generations to run
+    gen : int 
+        Current generation number
+    Returns
+    -------
+    list
+        New population after applying crossover and mutation operators
+    Notes
+    -----
+    - Elite individuals are preserved unchanged at the start of new population
+    - Crossover occurs between random pairs of non-elite individuals
+    - Mutation rate adapts based on remaining generations
+    - Fitness values are deleted after genetic operations to force re-evaluation
+    """
+
     #Elitism:
     elite_pop = [toolbox.clone(ind) for ind in sorted(population, key=attrgetter("fitness"), reverse=True)[:elite_pop_size]]
     offspring = [toolbox.clone(ind) for ind in population]
@@ -41,6 +71,43 @@ def GPAlgo(population,
             halloffame=None, 
             verbose=__debug__
             ):
+    """
+        Executes a genetic programming algorithm that evolves a population over multiple generations.
+        This function implements a genetic programming algorithm that evolves a population
+        over multiple generations using selection, crossover, and mutation operations while
+        preserving elite individuals.
+        Parameters
+        ----------
+        population : list
+            A list of individuals to evolve
+        toolbox : deap.base.Toolbox
+            A DEAP toolbox containing the evolution operators
+        cxpb : float
+            The probability of mating two individuals (crossover probability)
+        mutpb : float
+            The probability of mutating an individual
+        ngen : int
+            Number of generations to evolve
+        elite_pop_size : int
+            Number of best individuals to preserve between generations
+        stats : deap.tools.Statistics, optional
+            A DEAP Statistics object for collecting evolution statistics
+        halloffame : deap.tools.HallOfFame, optional
+            A DEAP HallOfFame object to record the best individuals
+        verbose : bool, optional
+            Whether to print the statistics after each generation
+        Returns
+        -------
+        tuple
+            A tuple containing:
+            - The final population (list)
+            - A logbook recording statistics
+            - A dictionary storing populations and offspring for each generation
+        Notes
+        -----
+        The function implements elitism by preserving the best individuals across generations.
+        It stores the state of evolution in each generation in a dictionary for later analysis.
+    """
     logbook = tools.Logbook()
     logbook.header = ['gen', 'nevals'] + (stats.fields if stats else [])
 

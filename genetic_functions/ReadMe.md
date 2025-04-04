@@ -1,0 +1,1 @@
+The folder contains functions extracted from the DEAP library and modified to suit the specific use of Genetic Programming applied to trading indicators.

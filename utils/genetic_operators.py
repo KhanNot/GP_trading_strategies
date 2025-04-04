@@ -1,12 +1,26 @@
 #Mutate entire branch:
 def mutBranch(individual, pset, max_per_mutate=50):
-    """Replaces a randomly chosen primitive from *individual* by a randomly
-    chosen primitive with the same number of arguments from the :attr:`pset`
-    attribute of the individual.
-
-    :param individual: The normal or typed tree to be mutated.
-    :returns: A tuple of one tree.
     """
+    Mutates a branch of the given individual by replacing nodes with randomly 
+    selected terminals or primitives from the provided primitive set (pset).
+    Parameters:
+        individual (list): The individual (tree representation) to be mutated.
+        pset (deap.gp.PrimitiveSet): The primitive set containing terminals and 
+            primitives used for mutation.
+        max_per_mutate (int, optional): The maximum percentage of nodes in the 
+            individual that can be mutated. Defaults to 50.
+    Returns:
+        tuple: A tuple containing the mutated individual.
+    Notes:
+        - If the individual has fewer than 2 nodes, no mutation is performed.
+        - The mutation process ensures that the maximum mutation portion 
+          (defined by `max_per_mutate`) is not exceeded.
+        - Terminals are replaced with randomly chosen terminals of the same 
+          return type.
+        - Primitives are replaced with randomly chosen primitives of the same 
+          return type and arity.
+    """
+
     if len(individual) < 2:
         return individual,
 
